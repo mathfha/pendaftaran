@@ -13,7 +13,6 @@ if (isset($_POST['submit'])) {
     if (!$qry) {
         die("Query error: " . mysqli_error($db));
     }
-
     $sesi = mysqli_num_rows($qry);
 
     if ($sesi === 1) {

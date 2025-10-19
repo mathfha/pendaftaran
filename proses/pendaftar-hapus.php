@@ -7,6 +7,6 @@ $query = "
     WHERE id_pendaftar = '$id_pendaftar'
 ";
 mysqli_query($db, $query);
-header("Location: ../index.php?p=anggota");
+header("Location: ../index.php?p=pendaftar");
 exit();
 ?>

@@ -31,24 +31,67 @@
         $nomor = $posisi + 1;
 
         $pencarian = '';
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $pencarian = trim(mysqli_real_escape_string($db, $_POST['pencarian']));
+       if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $pencarian = trim(mysqli_real_escape_string($db, $_POST['pencarian']));
             if ($pencarian != "") {
-                $sql = "SELECT * FROM v_pendaftaran_event 
-                        WHERE nama LIKE '%$pencarian%' 
-                        OR id_pendaftar LIKE '%$pencarian%' 
-                        OR email LIKE '%$pencarian%' 
-                        OR nama_event LIKE '%$pencarian%'";
-                $query = $sql;
-                $queryJml = $sql;
-            } else {
-                $query = "SELECT * FROM v_pendaftaran_event LIMIT $posisi, $batas";
-                $queryJml = "SELECT * FROM v_pendaftaran_event";
-            }
-        } else {
-            $query = "SELECT * FROM v_pendaftaran_event LIMIT $posisi, $batas";
-            $queryJml = "SELECT * FROM v_pendaftaran_event";
-        }
+                $sql = "SELECT 
+                    p.id_pendaftar,
+                    p.nama,
+                    p.email,
+                    p.tanggal_lahir,
+                    p.alamat,
+                    e.nama_event
+                FROM pendaftar p
+                JOIN event e ON p.id_event = e.id_event
+                WHERE p.nama LIKE '%$pencarian%' 
+                OR p.id_pendaftar LIKE '%$pencarian%' 
+                OR p.email LIKE '%$pencarian%' 
+                OR e.nama_event LIKE '%$pencarian%'";
+        $query = $sql;
+        $queryJml = $sql;
+    } else {
+        $query = "SELECT 
+                    p.id_pendaftar,
+                    p.nama,
+                    p.email,
+                    p.tanggal_lahir,
+                    p.alamat,
+                    e.nama_event
+                FROM pendaftar p
+                JOIN event e ON p.id_event = e.id_event
+                LIMIT $posisi, $batas";
+        $queryJml = "SELECT 
+                        p.id_pendaftar,
+                        p.nama,
+                        p.email,
+                        p.tanggal_lahir,
+                        p.alamat,
+                        e.nama_event
+                    FROM pendaftar p
+                    JOIN event e ON p.id_event = e.id_event";
+    }
+} else {
+    $query = "SELECT 
+                p.id_pendaftar,
+                p.nama,
+                p.email,
+                p.tanggal_lahir,
+                p.alamat,
+                e.nama_event
+            FROM pendaftar p
+            JOIN event e ON p.id_event = e.id_event
+            LIMIT $posisi, $batas";
+    $queryJml = "SELECT 
+                    p.id_pendaftar,
+                    p.nama,
+                    p.email,
+                    p.tanggal_lahir,
+                    p.alamat,
+                    e.nama_event
+                FROM pendaftar p
+                JOIN event e ON p.id_event = e.id_event";
+}
+
 
         $q_tampil_pendaftar = mysqli_query($db, $query);
 
