@@ -1,14 +1,12 @@
 <div id="label-page">
     <h3>Informasi Event</h3>
 </div>
-
 <div id="content">
     <p id="tombol-tambah-container">
         <a href="pendaftaran.php?p=publik_daftar-input" class="tombol">
             Daftar Event yang anda minati
         </a>
     </p>
-
     <table id="tabel-tampil">
         <tr>
             <th id="label-tampil-no">No</th>
@@ -17,11 +15,9 @@
             <th>Tanggal Event</th>
             <th>Informasi Event</th>
         </tr>
-
         <?php
         $batas = 5;
         extract($_GET);
-
         if (empty($hal)) {
             $posisi = 0;
             $hal = 1;
@@ -30,7 +26,6 @@
             $posisi = ($hal - 1) * $batas;
             $nomor = $posisi + 1;
         }
-
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $pencarian = trim(mysqli_real_escape_string($db, $_POST['pencarian']));
             if ($pencarian != "") {
@@ -49,9 +44,7 @@
             $query = "SELECT * FROM event LIMIT $posisi, $batas";
             $queryJml = "SELECT * FROM event";
         }
-
         $q_tampil_event = mysqli_query($db, $query);
-
         if (mysqli_num_rows($q_tampil_event) > 0) {
             while ($r_tampil_event = mysqli_fetch_array($q_tampil_event)) {
                 ?>
@@ -70,10 +63,8 @@
         }
         ?>
     </table>
-
     <?php
     $jml = mysqli_num_rows(mysqli_query($db, $queryJml));
-
     if (isset($_POST['pencarian']) && $_POST['pencarian'] != '') {
         echo "<div style=\"float:left;\">Data Hasil Pencarian: <b>$jml</b></div>";
     } else {
